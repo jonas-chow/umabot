@@ -196,7 +196,7 @@ class Calculator:
 
         required_hp = start_hp_consumed + p0a_hp_consumed + p0b_hp_consumed + p1a_hp_consumed + \
             p1b_hp_consumed + ideal_accel_hp_consumption + ideal_spurt_hp_consumption
-        required_stamina = actual_stamina + (required_hp - healed_hp) / 0.8 / strategy_hp_modifiers[self.strategy] / (1 + heal_factor / 10000)
+        required_stamina = actual_stamina + (required_hp - healed_hp) / 0.8 / strategy_hp_modifiers[self.strategy] / heal_factor
         return ceil(required_stamina)
 
     def __str__(self):
