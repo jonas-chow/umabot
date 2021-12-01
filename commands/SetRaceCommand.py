@@ -10,7 +10,7 @@ class SetRaceCommand(Command):
         "distance: Race distance in meters\n\n" + \
             "track_type: turf (芝) or dirt (ダート)\n\n" + \
                 "track_condition (optional, default good): good (良), slightly heavy (稍重), heavy (重), bad (不良)\n" + \
-                    "```"
+                    "```\n" + "Use `!setrace cm` to quickly set the race to the next Chamption's Meeting!"
 
     def copy(self):
         return SetRaceCommand()

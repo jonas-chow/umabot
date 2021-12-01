@@ -71,7 +71,8 @@ class Calculator:
         actual_intelligence = self.intelligence * mood_stat_bonus * strategy_aptitude_int_modifiers[self.strategy_aptitude]
 
         initial_hp = self.race.distance + 0.8 * actual_stamina * strategy_hp_modifiers[self.strategy]
-        healed_hp = initial_hp * (1 + (self.small_heals * 150 + self.med_heals * 350 + self.big_heals * 550) / 10000)
+        heal_factor = 1 + (self.small_heals * 150 + self.med_heals * 350 + self.big_heals * 550) / 10000
+        healed_hp = initial_hp * heal_factor
         last_hp_consumption = 1 + 200 / sqrt(600 * actual_guts)
 
 
@@ -195,7 +196,7 @@ class Calculator:
 
         required_hp = start_hp_consumed + p0a_hp_consumed + p0b_hp_consumed + p1a_hp_consumed + \
             p1b_hp_consumed + ideal_accel_hp_consumption + ideal_spurt_hp_consumption
-        required_stamina = actual_stamina + (required_hp - healed_hp) / 0.8 / strategy_hp_modifiers[self.strategy]
+        required_stamina = actual_stamina + (required_hp - healed_hp) / 0.8 / strategy_hp_modifiers[self.strategy] / (1 + heal_factor / 10000)
         return ceil(required_stamina)
 
     def __str__(self):
