@@ -41,4 +41,6 @@ class Parser():
         cmd.set_arguments(content.removeprefix(commandWord), message.author.id)
         if isinstance(cmd, HelpCommand):
             cmd.set_commands(Parser.commands)
+        message.add_reaction('✅')
+
         return cmd
