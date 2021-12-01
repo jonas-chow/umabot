@@ -18,6 +18,9 @@ class UmaBot(Client):
 
         if command is None:
             return
+
+        await message.add_reaction('✅')
+        
         try:
             response = command.execute(self.dbUrl)
         except CommandException as e:
