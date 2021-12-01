@@ -28,12 +28,15 @@ class UmaBot(Client):
 
         await message.channel.send(response)
 
+def main():
+    logger = getLogger()
+    logger.setLevel(INFO)
 
-logger = getLogger()
-logger.setLevel(INFO)
+    discordKey = getenv('DISCORD_KEY')
+    dbUrl = getenv('DATABASE_URL')
 
-discordKey = getenv('DISCORD_KEY')
-dbUrl = getenv('DATABASE_URL')
+    bot = UmaBot(dbUrl)
+    bot.run(discordKey)
 
-bot = UmaBot(dbUrl)
-bot.run(discordKey)
+if __name__ == "__main__":
+    main()
