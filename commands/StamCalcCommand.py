@@ -92,15 +92,20 @@ class StamCalcCommand(Command):
         race: Race = get_user_track(dbUrl, self.user_id)
         calculator.set_race(race)
 
-        requiredStam = calculator.calculate()
+        required_stam = calculator.calculate()
 
         response = str(calculator)
 
-        if requiredStam > stats[1]:
-            response = response + "```diff\n- Not enough stam: Need {} stam\n```".format(requiredStam)
-        elif requiredStam * 1.1 > stats[1]:
-            response = response + "```fix\n~ Barely enough stam: Need {} stam\n```".format(requiredStam)
+        if required_stam > stats[1]:
+            response += "```diff\n- Not enough stam: Need {} stam\n```\n".format(required_stam)
+        elif required_stam * 1.1 > stats[1]:
+            response += "```fix\n~ Barely enough stam: Need {} stam\n```\n".format(required_stam)
         else:
-            response = response + "```diff\n+ More than enough stam: Need {} stam\n```".format(requiredStam)
+            response += "```diff\n+ More than enough stam: Need {} stam\n```\n".format(required_stam)
+
+        skill_rate = calculator.calculate_skill_rate()
+        kakari_rate = calculator.calculate_kakari_rate()
+
+        response += "Skill rate: {:.2f}%, Kakari Rate: {:.2f}%".format(skill_rate, kakari_rate)
 
         return response

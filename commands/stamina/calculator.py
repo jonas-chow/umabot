@@ -199,6 +199,15 @@ class Calculator:
         required_stamina = actual_stamina + (required_hp - healed_hp) / 0.8 / strategy_hp_modifiers[self.strategy] / heal_factor
         return ceil(required_stamina)
 
+    def calculate_skill_rate(self):
+        actual_intelligence = self.intelligence * mood_stat_modifiers[self.mood] * strategy_aptitude_int_modifiers[self.strategy_aptitude]
+        return max(100 - 9000 / actual_intelligence, 20)
+
+    def calculate_kakari_rate(self):
+        actual_intelligence = self.intelligence * mood_stat_modifiers[self.mood] * strategy_aptitude_int_modifiers[self.strategy_aptitude]
+        return (6.5 / log10(actual_intelligence / 10 + 1)) ** 2
+
+
     def __str__(self):
         return 'Race: ' + str(self.race.distance) + 'm ' + str(self.race.type) + ' ' + str(self.race.condition) + '\n' + \
             str(self.speed) + '/' + str(self.stamina) + '/' + str(self.power) + '/' + str(self.guts) + '/' + str(self.intelligence) + ' ' + \
