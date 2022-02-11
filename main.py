@@ -14,6 +14,10 @@ class UmaBot(Client):
         await self.change_presence(activity=Game(name="!help"))
 
     async def on_message(self,message):
+        if self.is_ws_ratelimited():
+            log(INFO, "rate limited!")
+            return
+
         command = self.parser.parse(message)
 
         if command is None:
