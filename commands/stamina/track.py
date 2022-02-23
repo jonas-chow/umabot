@@ -60,6 +60,16 @@ class Race:
         else:
             return 1.02
 
+    def get_distance_type(self):
+        if self.distance <= 1400:
+            return '短距離'
+        elif self.distance <= 1800:
+            return 'マイル'
+        elif self.distance <= 2400:
+            return '中距離'
+        else:
+            return '長距離'
+
     def __str__(self):
         return str(self.distance) + 'm ' + str(self.type) + ' ' + str(self.condition)
 

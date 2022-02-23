@@ -1,5 +1,5 @@
 from commands.command import Command
-from commands.stamina.track import Condition, parse_condition, parse_track, Race
+from commands.stamina.track import Condition, Track, parse_condition, parse_track, Race
 from commands.db.raceData import get_cm_track, set_user_track
 from commands.CommandException import CommandException
 
@@ -21,10 +21,25 @@ class SetRaceCommand(Command):
         self.user_id = user_id
 
     def execute(self, dbUrl):
-        if self.arguments.lower() == 'cm':
-            race: Race = get_cm_track(dbUrl)
+        first_word = self.arguments.lower()
+
+        if first_word in ['cm', 'short', 'mile', 'mid', 'long', 'dirt']:
+            if first_word == 'cm':
+                race: Race = get_cm_track(dbUrl)
+            elif first_word == 'short':
+                race: Race = Race(1400, Track.TURF, Condition.BAD)
+            elif first_word == 'mile':
+                race: Race = Race(1800, Track.TURF, Condition.BAD)
+            elif first_word == 'mid':
+                race: Race = Race(2400, Track.TURF, Condition.BAD)
+            elif first_word == 'long':
+                race: Race = Race(3600, Track.TURF, Condition.BAD)
+            else:
+                race: Race = Race(1800, Track.DIRT, Condition.BAD)
+            
             set_user_track(dbUrl, self.user_id, race)
             return 'Race registered successfully: ' + str(race)
+        
 
         words: list[str] = self.arguments.split(' ', -1)
         if (len(words) < 2):

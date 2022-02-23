@@ -211,5 +211,5 @@ class Calculator:
     def __str__(self):
         return 'Race: ' + str(self.race.distance) + 'm ' + str(self.race.type) + ' ' + str(self.race.condition) + '\n' + \
             str(self.speed) + '/' + str(self.stamina) + '/' + str(self.power) + '/' + str(self.guts) + '/' + str(self.intelligence) + ' ' + \
-                str(self.track_aptitude) + '/' + str(self.distance_aptitude) + '/' + str(self.strategy_aptitude) + ' ' + str(self.strategy) + '\n' + \
+                str(self.race.type) + str(self.track_aptitude) + ' ' + self.race.get_distance_type() + str(self.distance_aptitude) + ' ' + str(self.strategy) + str(self.strategy_aptitude) + '\n' + \
                     'heals: ' + str(self.small_heals) + '/' + str(self.med_heals) + '/' + str(self.big_heals) + ' ' + str(self.mood) + '\n'
