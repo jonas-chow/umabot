@@ -50,9 +50,11 @@ class StamCalcCommand(Command):
                     raw = int(raw)
                     greens = int(greens)
                     effective = raw + greens if raw <= 1200 else 1200 + (raw - 1200) / 2 + greens
-                    stats[index] = effective
+                    stats[index] = int(effective)
                 else:
-                    stats[index] = int(stat)
+                    raw = int(stat)
+                    effective = raw if raw <= 1200 else 1200 + (raw - 1200) / 2
+                    stats[index] = int(effective)
                 if stats[index] < 0:
                     stats[index] = 0
         except ValueError: 
