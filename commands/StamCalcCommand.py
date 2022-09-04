@@ -43,7 +43,7 @@ class StamCalcCommand(Command):
             raise CommandException('Exactly 5 stats should be provided')
 
         try:
-            stats = []
+            stats = [0, 0, 0, 0, 0]
             for index, stat in enumerate(stat_input):
                 if '+' in stat:
                     raw, greens = stat.split('+', 1)
