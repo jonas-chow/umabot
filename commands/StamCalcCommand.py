@@ -53,12 +53,10 @@ class StamCalcCommand(Command):
                     stats[index] = effective
                 else:
                     stats[index] = int(stat)
+                if stats[index] < 0:
+                    stats[index] = 0
         except ValueError: 
             raise CommandException('Failed to parse stats')
-        
-        for stat in stats:
-            if stat < 0:
-                raise CommandException('Stats should not be negative')
 
         calculator.set_stats(*stats)
 
