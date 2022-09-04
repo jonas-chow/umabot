@@ -126,7 +126,8 @@ class Calculator:
         # phase 2/3, last spurt setup for calculating last spurt distance
         ls_target_speed = (base_speed * (strategy_speed_modifiers[2][self.strategy] + 0.01) + \
             sqrt(500 * actual_speed) * distance_aptitude_speed_modifiers[self.distance_aptitude] / 500) * 1.05 + \
-            sqrt(500 * actual_speed) * distance_aptitude_speed_modifiers[self.distance_aptitude] / 500
+            sqrt(500 * actual_speed) * distance_aptitude_speed_modifiers[self.distance_aptitude] / 500 + \
+            (450 * actual_guts) ** 0.597 / 10000
         ls_accel = 0.0006 * sqrt(500 * actual_power) * strategy_power_modifiers[2][self.strategy] * \
             distance_aptitude_accel_modifiers[self.distance_aptitude] * track_aptitude_power_modifiers[self.track_aptitude]
 

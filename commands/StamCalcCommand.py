@@ -12,6 +12,7 @@ class StamCalcCommand(Command):
     FORMAT = "stamcalc `stats` `aptitudes` `strategy` `heals` (`mood`)\n" + \
         "```\n" + \
         "stats: spd/sta/pow/guts/int\n\n" + \
+            "  stats from green skills can be added behind a + (e.g. 1400+80/600/1200/600/1200+40)" + \
         "aptitudes: track aptitude/distance aptitude/strategy aptitude\n\n" + \
         "strategy: runner (逃げ), leader (先行), betweener (差し), chaser (追込)\n\n" + \
         "heals: small heals/med heals/large heals\n" + \
@@ -37,12 +38,21 @@ class StamCalcCommand(Command):
         if (len(words) < 4):
             raise CommandException('Invalid format. \n' + StamCalcCommand.FORMAT)
 
-        stats = words[0].split('/', -1)
-        if len(stats) != 5:
+        stat_input = words[0].split('/', -1)
+        if len(stat_input) != 5:
             raise CommandException('Exactly 5 stats should be provided')
 
         try:
-            stats = [int(x) for x in stats]
+            stats = []
+            for index, stat in enumerate(stat_input):
+                if '+' in stat:
+                    raw, greens = stat.split('+', 1)
+                    raw = int(raw)
+                    greens = int(greens)
+                    effective = raw + greens if raw <= 1200 else 1200 + (raw - 1200) / 2 + greens
+                    stats[index] = effective
+                else:
+                    stats[index] = int(stat)
         except ValueError: 
             raise CommandException('Failed to parse stats')
         
@@ -66,16 +76,11 @@ class StamCalcCommand(Command):
         strat = parse_strat(words[2])
         calculator.set_strategy(strat)
 
-
         heals = words[3].split('/', -1)
         try:
             heals = [float(x) for x in heals]
         except ValueError: 
             raise CommandException('Failed to parse heal count')
-
-        for heal in heals:
-            if heal < 0:
-                raise CommandException('Heal count should not be negative')
 
         if (len(heals) == 2):
             calculator.set_heals(heals[0], 0.0, heals[1])
